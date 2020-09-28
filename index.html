@@ -101,6 +101,78 @@
                     </tbody>
                   </table>
             </div>  
+            <div class="row">
+                <div class="col-8">
+                    <span><h3 class="mt-3 mb-3">Classificados para Libertadores Vue.js</h3></span>     
+                </div>
+                <div class="mt-3">
+                    <table class="table  table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Pontos</th>
+                            <th scope="col">Gols Marcados</th>
+                            <th scope="col">Gols Sofridos</th>
+                            <th scope="col">Saldo</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+    
+                          <tr v-for="time in timesLibertadores">
+                            <th scope="row">1</th>
+                            <td>
+                                <img :src="time.escudo" class="escudo"> - 
+                                {{time.nome}}
+                            </td>
+                            <td>{{time.pontos}}</td>
+                            <td>{{time.gm}}</td>
+                            <td>{{time.gs}}</td>
+                            <td>{{time.saldo}}</td>
+                          </tr>
+                        
+                        </tbody>
+                      </table>
+                </div>  
+                
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    <span><h3 class="mt-3 mb-3">Times Rebaixados</h3></span>     
+                </div>
+                <div class="mt-3">
+                    <table class="table  table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Pontos</th>
+                            <th scope="col">Gols Marcados</th>
+                            <th scope="col">Gols Sofridos</th>
+                            <th scope="col">Saldo</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+    
+                          <tr v-for="time in timesRebaixados">
+                            <th scope="row">1</th>
+                            <td>
+                                <img :src="time.escudo" class="escudo"> - 
+                                {{time.nome}}
+                            </td>
+                            <td>{{time.pontos}}</td>
+                            <td>{{time.gm}}</td>
+                            <td>{{time.gs}}</td>
+                            <td>{{time.saldo}}</td>
+                          </tr>
+                        
+                        </tbody>
+                      </table>
+                </div>  
+                
+            </div>
+            
+            
         </div>       
     </div>
     <!---Vue.js--->
@@ -200,6 +272,14 @@
                     },
                 }
             },
+            computed: {
+                timesLibertadores(){
+                    return this.times.slice(0,4)
+                },
+                timesRebaixados(){
+                    return this.times.slice(16,20)
+                },
+            },
             methods:{
                 criarNovoJogo(){
                     var indiceCasa = Math.floor(Math.random() * 20);
@@ -219,7 +299,7 @@
                     timeCasa.fimJogo(timeAdvesario, golsMarcados, golsSofrios);
                     this.fimDeJogo = 'novo';
 
-                }                
+                },
             }
         })
     </script>
