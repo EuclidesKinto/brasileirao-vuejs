@@ -21,7 +21,6 @@ Vue.component('clube-libertadores', {
         <table class="table  table-striped">
             <thead>
                 <tr>
-                <th scope="col">#</th>
                 <th scope="col">Nome</th>
                 <th scope="col">Pontos</th>
                 <th scope="col">Gols Marcados</th>
@@ -32,7 +31,7 @@ Vue.component('clube-libertadores', {
             <tbody>
 
                 <tr v-for="time in timesLibertadores">
-                <th scope="row">1</th>
+                
                 <td>
                     <clube :time="time"></clube>
                 </td>
@@ -65,7 +64,6 @@ Vue.component('clube-rebaixados', {
         <table class="table  table-striped">
             <thead>
               <tr>
-                <th scope="col">#</th>
                 <th scope="col">Nome</th>
                 <th scope="col">Pontos</th>
                 <th scope="col">Gols Marcados</th>
@@ -76,7 +74,7 @@ Vue.component('clube-rebaixados', {
             <tbody>
 
               <tr v-for="time in timesRebaixados">
-                <th scope="row">1</th>
+                
                 <td>
                     <clube :time="time"></clube>
                 </td>

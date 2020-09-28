@@ -72,7 +72,6 @@
                 <table class="table  table-striped">
                     <thead>
                      <tr>
-                        <th scope="col">#</th>
                         <th scope="col">Nome</th>
                         <th scope="col" v-for="(coluna, indice) in ordem.colunas">
                             <a href="#" @click.prevent="ordenar(indice)">{{coluna}}</a>
@@ -92,7 +91,7 @@
 
                       <tr v-for="(time, indice) in timesFiltrados" :class="{'table-success' : indice<4}" :style="{'font-weight' : indice<4?'bold':'400'}">
                         
-                        <th scope="row" >1</th>
+                        
                         <td>
                             <clube :time="time"></clube>
                         </td>
