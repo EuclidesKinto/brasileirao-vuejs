@@ -78,15 +78,15 @@
                       <tr>
                         <th scope="col">#</th>
                         <th scope="col">Nome</th>
-                        <th scope="col">Pontos</th>
-                        <th scope="col">Gols Marcados</th>
-                        <th scope="col">Gols Sofridos</th>
-                        <th scope="col">Saldo</th>
+                        <th scope="col" v-for="(coluna, indice) in ordem.colunas">
+                            <a href="#" @click.prevent="ordenar(indice)">{{coluna}}</a>
+                        </th>
+                        
                       </tr>
                     </thead>
                     <tbody>
 
-                      <tr v-for="time in times">
+                      <tr v-for="time in timesOrdenados">
                         <th scope="row">1</th>
                         <td>
                             <img :src="time.escudo" class="escudo"> - 
@@ -176,6 +176,7 @@
         </div>       
     </div>
     <!---Vue.js--->
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
     <script>
         class Time {
@@ -239,6 +240,10 @@
                golsCasa: '',
                golsVisitante: '',
                fimDeJogo: 'fim',
+               ordem: {
+                   colunas: ['pontos', 'gm', 'gs', 'saldo'],
+                   orientacao: ['desc', 'desc', 'asc', 'desc'], 
+               },
                times: [
                     new Time('Palmeiras', 'assets/palmeiras_60x60.png'),
                     new Time('Internacional', 'assets/internacional_60x60.png'),
@@ -279,6 +284,9 @@
                 timesRebaixados(){
                     return this.times.slice(16,20)
                 },
+                timesOrdenados(){
+                    return _.orderBy(this.times, this.ordem.colunas, this.ordem.orientacao);
+                }
             },
             methods:{
                 criarNovoJogo(){
@@ -300,6 +308,10 @@
                     this.fimDeJogo = 'novo';
 
                 },
+                ordenar(indice){
+                    //this.ordem.orientacao[indice] = this.ordem.orientacao[indice] =='desc' ? 'asc' : 'desc';
+                    this.$set(this.ordem.orientacao, indice, this.ordem.orientacao[indice] =='desc'? 'asc':'desc')
+                }
             }
         })
     </script>
