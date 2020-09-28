@@ -20,7 +20,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-4">
-                    <span><button class="btn btn-primary btn-block ml-0 mt-3 mb-3" @click="criarNovoJogo">Criar Novo Jogo</button></span>    
+                    <span><button class="btn btn-primary btn-block ml-0 mt-3 mb-3" @click="criarNovoJogo">Começar o Jogo</button></span>    
                 </div>
                 <div class="col-8">
                     <span><h2 class="mt-3 mb-3">Campeonato Brasileiro Vue.js</h2></span>     
@@ -59,17 +59,19 @@
                                <h3>{{novoJogo.fora.gols}}</h3>
                             </div>
                         </div>
-
                     </div>
                 
             </div>
             
             <div class="row mt-3">
-                <div class="col-11 text-center">
-                    <button @click="" type="button" class="btn btn-primary ">Fim de Jogo</button>
+                <div class="col-11 text-center " v-if="fimDeJogo=='fim'">
+                    <button @click="fimJogo" type="button" class="btn btn-primary ">Fim de Jogo</button>
                 </div>
-
+                <div class="col-11 text-center" v-if="fimDeJogo=='novo'">
+                    <button @click="criarNovoJogo" type="button" class="btn btn-success ">Criar novo jogo</button>
+                </div>
             </div> 
+
             <div class="mt-3">
                 <table class="table  table-striped">
                     <thead>
@@ -93,7 +95,7 @@
                         <td>{{time.pontos}}</td>
                         <td>{{time.gm}}</td>
                         <td>{{time.gs}}</td>
-                        <td>{{time.gs - time.gm}}</td>
+                        <td>{{time.saldo}}</td>
                       </tr>
                     
                     </tbody>
@@ -113,17 +115,22 @@
                 this.pontos = 0;
                 this.gm = 0;
                 this.gs = 0;
+                this.saldo = 0;
             }
 
             fimJogo(timeVisitante, golsMarcados, golsSofridos){
                 if(this.foiEmpate(golsMarcados, golsSofridos)){
-
+                    this.empate(golsMarcados, golsSofridos);
+                    timeVisitante.empate(golsMarcados, golsSofridos);
+                    return;
                 }
 
                 if(this.foiVitoria(golsMarcados, golsSofridos)){
-
+                    this.vitoria(golsMarcados, golsSofridos);
+                    timeVisitante.derrota(golsSofridos, golsMarcados);
                 }else{
-
+                    this.derrota(golsMarcados, golsSofridos);
+                    timeVisitante.vitoria(golsSofridos, golsMarcados);
                 }
             }
 
@@ -131,14 +138,15 @@
                 return golsMarcados === golsSofridos;
             }
 
-            foiVitoria(){
+            foiVitoria(golsMarcados, golsSofridos){
                 return golsMarcados > golsSofridos;
             }
 
             atualizarInfo(pontos, golsMarcados, golsSofridos){
-                this.pontos =+ pontos;
-                this.gm =+ golsMarcados;
-                this.gs =+ golsSofridos;
+                this.pontos += pontos;
+                this.gm += golsMarcados;
+                this.gs += golsSofridos;
+                this.saldo += this.gm - this.gs;
             }
 
             empate(golsMarcados, golsSofridos){
@@ -158,6 +166,7 @@
             data:{
                golsCasa: '',
                golsVisitante: '',
+               fimDeJogo: 'fim',
                times: [
                     new Time('Palmeiras', 'assets/palmeiras_60x60.png'),
                     new Time('Internacional', 'assets/internacional_60x60.png'),
@@ -197,9 +206,19 @@
                     var indiceFora = Math.floor(Math.random() * 20);
 
                     this.novoJogo.casa.time = this.times[indiceCasa];
-                    this.novoJogo.casa.gols = 0;
+                    this.novoJogo.casa.gols = Math.floor(Math.random() * 7 + 1);
                     this.novoJogo.fora.time = this.times[indiceFora];
-                    this.novoJogo.fora.gols = 0;
+                    this.novoJogo.fora.gols = Math.floor(Math.random() * 6 + 1);
+                    this.fimDeJogo = 'fim';
+                },
+                fimJogo(){
+                    let golsMarcados = parseInt(this.novoJogo.casa.gols);
+                    let golsSofrios = parseInt(this.novoJogo.fora.gols);
+                    let timeCasa = this.novoJogo.casa.time;
+                    let timeAdvesario = this.novoJogo.fora.time;
+                    timeCasa.fimJogo(timeAdvesario, golsMarcados, golsSofrios);
+                    this.fimDeJogo = 'novo';
+
                 }                
             }
         })
