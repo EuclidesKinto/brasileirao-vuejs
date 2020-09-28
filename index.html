@@ -76,18 +76,28 @@
                 <input type="text" class="form-control" v-model="busca">
                 <table class="table  table-striped">
                     <thead>
-                      <tr>
+                     <!--<tr>
                         <th scope="col">#</th>
                         <th scope="col">Nome</th>
                         <th scope="col" v-for="(coluna, indice) in ordem.colunas">
                             <a href="#" @click.prevent="ordenar(indice)">{{coluna}}</a>
-                        </th>                        
+                        </th>                      
+                      </tr>-->
+                       <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Pontos</th>
+                        <th scope="col">Gols Marcados</th>
+                        <th scope="col">Gols Sofridos</th>
+                        <th scope="col">Saldo</th>
                       </tr>
+
                     </thead>
                     <tbody>
 
                       <tr v-for="time in timesFiltrados">
-                        <th scope="row">1</th>
+                        
+                        <th scope="row" >1</th>
                         <td>
                             <img :src="time.escudo" class="escudo"> - 
                             {{time.nome}}
@@ -242,9 +252,10 @@
                fimDeJogo: 'fim',
                busca: '',
                ordem: {
-                   colunas: ['pontos', 'gm', 'gs', 'saldo'],
-                   orientacao: ['desc', 'desc', 'asc', 'desc'], 
+                   colunas: ['pontos', 'gm', 'saldo'],
+                   //orientacao: ['desc', 'desc', 'asc', 'desc'], 
                },
+              orientacao: 'desc',
                times: [
                     new Time('Palmeiras', 'assets/palmeiras_60x60.png'),
                     new Time('Internacional', 'assets/internacional_60x60.png'),
@@ -286,13 +297,14 @@
                     return this.times.slice(16,20)
                 },
                 timesFiltrados(){
-                    console.log('ordenou',this.ordem);
-                    var times = _.orderBy(this.times, this.ordem.colunas, this.ordem.orientacao);
+                    var times = _.orderBy(this.times, this.ordem.colunas, this.orientacao);
                     var self = this;
                     return _.filter(times, function(time){
                         var busca = self.busca.toLowerCase();
                         return time.nome.toLowerCase().indexOf(busca) >= 0;
                         })
+                    
+                    //return _.orderBy(this.times, 'pontos', this.orientacao);
                 }
             },
             methods:{
