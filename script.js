@@ -109,7 +109,7 @@ new Vue({
         busca: '',
         ordem: {
             colunas: ['pontos', 'gm', 'gs', 'saldo'],
-            orientacao: ['desc', 'desc', 'asc', 'desc'], 
+            orientacao: ['desc', 'asc', 'asc', 'desc'], 
         },
         //orientacao: 'desc',
         times: [
